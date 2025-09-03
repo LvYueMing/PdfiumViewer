@@ -13,6 +13,10 @@ namespace PdfiumViewer
     public interface IPdfDocument : IDisposable
     {
         /// <summary>
+        /// 在渲染时将绘制表单字段（包括签名域、文本框、复选框、下拉框等）
+        /// </summary>
+        bool RrawFormFields { get; }
+        /// <summary>
         /// Number of pages in the PDF document.
         /// </summary>
         int PageCount { get; }
@@ -105,6 +109,20 @@ namespace PdfiumViewer
         /// <param name="flags">Flags used to influence the rendering.</param>
         /// <returns>The rendered image.</returns>
         Image Render(int page, int width, int height, float dpiX, float dpiY, PdfRotation rotate, PdfRenderFlags flags);
+
+        /// <summary>
+        /// Renders a page of the PDF document to an image.
+        /// </summary>
+        /// <param name="page">Number of the page to render.</param>
+        /// <param name="width">Width of the rendered image.</param>
+        /// <param name="height">Height of the rendered image.</param>
+        /// <param name="dpiX">Horizontal DPI.</param>
+        /// <param name="dpiY">Vertical DPI.</param>
+        /// <param name="rotate">Rotation.</param>
+        /// <param name="flags">Flags used to influence the rendering.</param>
+        /// <param name="drawFormFields">Draw form fields.</param>
+        /// <returns>The rendered image.</returns>
+        Image Render(int page, int width, int height, float dpiX, float dpiY, PdfRotation rotate, PdfRenderFlags flags, bool drawFormFields);
 
         /// <summary>
         /// Save the PDF document to the specified location.

@@ -537,6 +537,7 @@ namespace PdfiumViewer
                 _maxHeight = Math.Max((int)translated.Height, _maxHeight);
             }
 
+            //文档缩放因子
             _documentScaleFactor = _maxHeight != 0 ? (double)_maxWidth / _maxHeight : 0D;
 
             _markers = null;
@@ -762,6 +763,9 @@ namespace PdfiumViewer
                     }
                 }
 
+                //你要绘制的元素是否与需要重绘的区域有重叠。
+                //e.ClipRectangle 表示当前需要重绘的区域（由系统或刷新操作确定的 “无效区域”）
+                //rectangle 通常是你要绘制的图形或元素所在的区域
                 if (e.ClipRectangle.IntersectsWith(rectangle))
                 {
                     var pageBounds = pageCache.Bounds;
@@ -823,7 +827,16 @@ namespace PdfiumViewer
             var pageCache = _pageCache[page];
 
             if (pageCache.Image == null)
-                pageCache.Image = Document.Render(page, pageBounds.Width, pageBounds.Height, graphics.DpiX, graphics.DpiY, Rotation, PdfRenderFlags.Annotations);
+            {
+                if (Document.RrawFormFields)
+                {
+                    pageCache.Image = Document.Render(page, pageBounds.Width, pageBounds.Height, graphics.DpiX, graphics.DpiY, Rotation, PdfRenderFlags.Annotations, true);
+                }
+                else
+                {
+                    pageCache.Image = Document.Render(page, pageBounds.Width, pageBounds.Height, graphics.DpiX, graphics.DpiY, Rotation, PdfRenderFlags.Annotations);
+                }                
+            }
 
             graphics.DrawImageUnscaled(pageCache.Image, pageBounds.Location);
         }

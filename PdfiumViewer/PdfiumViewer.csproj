@@ -19,6 +19,7 @@
     <DocumentationFile>bin\$(Configuration)\PdfiumViewer.xml</DocumentationFile>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>Key.snk</AssemblyOriginatorKeyFile>
+    <AssemblyName>$(MSBuildProjectName)ForHsEmr</AssemblyName>
   </PropertyGroup>
   <ItemGroup Condition=" '$(TargetFramework)' == 'net20' Or '$(TargetFramework)' == 'net45'">
     <Reference Include="System.Windows.Forms" />

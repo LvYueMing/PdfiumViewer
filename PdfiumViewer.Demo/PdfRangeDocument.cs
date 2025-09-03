@@ -28,11 +28,16 @@ namespace PdfiumViewer.Demo
             );
         }
 
+
+
         private readonly IPdfDocument _document;
         private readonly int _startPage;
         private readonly int _endPage;
         private PdfBookmarkCollection _bookmarks;
         private IList<SizeF> _sizes;
+        private bool drawFormFields;
+
+        bool IPdfDocument.RrawFormFields => drawFormFields;
 
         private PdfRangeDocument(IPdfDocument document, int startPage, int endPage)
         {
@@ -93,6 +98,8 @@ namespace PdfiumViewer.Demo
                 return _sizes;
             }
         }
+
+
 
         private IList<SizeF> TranslateSizes(IList<SizeF> pageSizes)
         {
@@ -327,6 +334,11 @@ namespace PdfiumViewer.Demo
         public void Dispose()
         {
             _document.Dispose();
+        }
+
+        public Image Render(int page, int width, int height, float dpiX, float dpiY, PdfRotation rotate, PdfRenderFlags flags, bool drawFormFields)
+        {
+            throw new NotImplementedException();
         }
     }
 }

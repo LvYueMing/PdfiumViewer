@@ -123,6 +123,7 @@ namespace PdfiumViewer
             var fullClient = ClientRectangle;
             var minClient = fullClient;
 
+            //获取当前系统中水平滚动条的标准高度/宽度（以像素为单位）
             if (HScroll)
                 fullClient.Height += SystemInformation.HorizontalScrollBarHeight;
             else
@@ -277,6 +278,7 @@ namespace PdfiumViewer
                 var rcClip = new NativeMethods.RECT(cr);
                 var rcUpdate = new NativeMethods.RECT(cr);
 
+                //高效地滚动窗口内容并处理相关的子控件和重绘逻辑
                 NativeMethods.ScrollWindowEx(
                     new HandleRef(this, Handle), xDelta, yDelta,
                     IntPtr.Zero,

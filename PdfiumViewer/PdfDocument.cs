@@ -19,6 +19,8 @@ namespace PdfiumViewer
         private bool _disposed;
         private PdfFile _file;
         private readonly List<SizeF> _pageSizes;
+        // 在渲染时将绘制表单字段,（如文本框、复选框、下拉菜单等交互元素）
+        private bool drawFormFields = false;
 
         /// <summary>
         /// Initializes a new instance of the PdfDocument class with the provided path.
@@ -27,6 +29,18 @@ namespace PdfiumViewer
         public static PdfDocument Load(string path)
         {
             return Load(path, null);
+        }
+
+
+        /// <summary>
+        /// Initializes a new instance of the PdfDocument class with the provided path.
+        /// </summary>
+        /// <param name="path">Path to the PDF document.</param>
+        public static PdfDocument Load(string path, bool aDrawFormFields)
+        {
+            var _doc = Load(path, null);
+            _doc.drawFormFields = aDrawFormFields;
+            return _doc;
         }
 
         /// <summary>
@@ -116,6 +130,13 @@ namespace PdfiumViewer
             return Load(stream, null);
         }
 
+        public static PdfDocument Load(Stream stream, bool aDrawFormFields)
+        {
+            var _doc = Load(stream, null);
+            _doc.drawFormFields = aDrawFormFields;
+            return _doc;
+        }
+
         /// <summary>
         /// Initializes a new instance of the PdfDocument class with the provided stream.
         /// </summary>
@@ -127,6 +148,15 @@ namespace PdfiumViewer
                 throw new ArgumentNullException(nameof(stream));
 
             return new PdfDocument(stream, password);
+        }
+
+
+        /// <summary>
+        /// 在渲染时将绘制表单字段（包括签名域、文本框、复选框、下拉框等）
+        /// </summary>
+        public bool RrawFormFields
+        {
+            get { return this.drawFormFields; }
         }
 
         /// <summary>

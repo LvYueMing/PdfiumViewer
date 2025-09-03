@@ -67,7 +67,7 @@ namespace PdfiumViewer
             if (_disposed)
                 throw new ObjectDisposedException(GetType().Name);
 
-            var pageData = GetPageData(pageNumber);
+            var pageData = GetPageData(pageNumber); 
 
             NativeMethods.FPDF_RenderPageBitmap(bitmapHandle, pageData.Page, boundsOriginX, boundsOriginY, boundsWidth, boundsHeight, rotate, flags);
 
