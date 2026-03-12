@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Printing;
@@ -214,22 +214,21 @@ namespace PdfiumViewer
             left += (width - scaledWidth) / 2;
             top += (height - scaledHeight) / 2;
 
-            //using (Image image = _document.Render(page,
-            //    AdjustDpi(e.Graphics.DpiX, scaledWidth),
-            //    AdjustDpi(e.Graphics.DpiY, scaledHeight),
-            //    e.Graphics.DpiX,
-            //    e.Graphics.DpiY,
-            //    PdfRotation.Rotate0, PdfRenderFlags.ForPrinting | PdfRenderFlags.Annotations))
-            //{
-            //    e.Graphics.DrawImageUnscaled(image, e.PageBounds.Location);
-            //}
+            int renderWidth = AdjustDpi(e.Graphics.DpiX, scaledWidth);
+            int renderHeight = AdjustDpi(e.Graphics.DpiY, scaledHeight);
 
-            //修正，打印显示签名图片
+            if (renderWidth <= 0 || renderHeight <= 0)
+            {
+                e.HasMorePages = false;
+                return;
+            }
+
             using (Image image = _document.Render(page,
-                                                AdjustDpi(e.Graphics.DpiX, scaledWidth),
-                                                AdjustDpi(e.Graphics.DpiY, scaledHeight),
-                                                e.Graphics.DpiX,e.Graphics.DpiY,
-                                                PdfRotation.Rotate0, PdfRenderFlags.ForPrinting | PdfRenderFlags.Annotations, _document.RrawFormFields))
+                renderWidth,
+                renderHeight,
+                e.Graphics.DpiX,
+                e.Graphics.DpiY,
+                PdfRotation.Rotate0, PdfRenderFlags.ForPrinting | PdfRenderFlags.Annotations))
             {
                 e.Graphics.DrawImageUnscaled(image, e.PageBounds.Location);
             }
